@@ -19,11 +19,11 @@ Dummy Customer
 
 ### Controllers (Lemuel)
 - User Resources
-[x] User registration
-[x] User authentication
-[] Set user as admin (Admin only)
-[x] Retrieve User Details
-[] Update Password
+ - [x] User registration
+ - [x] User authentication
+ - [] Set user as admin (Admin only)
+ - [x] Retrieve User Details
+ - [] Update Password
 
 ### Controllers (Toni)
 - 
