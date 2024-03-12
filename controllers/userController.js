@@ -159,25 +159,23 @@ module.exports.updateUser = (req, res) => {
 // Update Password
 module.exports.updatePassword = (req, res) => {
     const userId = req.user.id;
-    const updatedPassword = req.body.password;
     
-    let updatePassword = {
-        password : updatedPassword
+    let updatedPassword = {
+        password : req.body.password
     }
 
-    return User.findByIdAndUpdate(userId, updatePassword)
-    .then(updatedUser => {
-        if (!updatedUser) {
+    return User.findByIdAndUpdate(userId, updatedPassword)
+    .then(updatedPassword => {
+        if (!updatedPassword) {
             return res.status(404).send({ error: 'User not found' });
         }
-
         return res.status(200).send({
             message: "Password Updated Successfully",
             updatedPassword: updatePassword
         });
     })
-    .catch(serverErr => {
-        console.error("Failed in updating the user: ", serverErr)
+    .catch(err => {
+        console.error("Failed in updating the user: ", err)
         return res.status(500).send({ error: 'Failed to update the user' })
     });
 };
