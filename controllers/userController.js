@@ -2,7 +2,7 @@
 const bcrypt = require("bcrypt")
 
 // The "User" variable is defined using a capitalized letter to indicate that what we are using is the "User" model for code readability
-const User = require("../models/userModel.js");
+const User = require("../models/User.js");
 const auth = require("../auth.js")
 
 // Controllers
