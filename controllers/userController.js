@@ -58,8 +58,7 @@ module.exports.registerUser = (req, res) => {
 				lastName : req.body.lastName,
 				email : req.body.email,
 				mobileNo : req.body.mobileNo,
-				/*password : bcrypt.hashSync(req.body.password, 10)*/
-				password : req.body.password
+				password : bcrypt.hashSync(req.body.password, 10)
 			})
 			
 			return newUser.save()
@@ -157,31 +156,28 @@ module.exports.updateUser = (req, res) => {
 
 
 // Update Password
-module.exports.updatePassword = (req, res) => {
-    const userId = req.user.id;
-    
-    let updatedPassword = {
-        password : req.body.password
-    }
+module.exports.updatePassword = async (req, res) => {
+  try {
+  	console.log(req.body);
+  	console.log(req.user);
 
-    return User.findByIdAndUpdate(userId, updatedPassword)
-    .then(updatedPassword => {
-        if (!updatedPassword) {
-            return res.status(404).send({ error: 'User not found' });
-        }
-        return res.status(200).send({
-            message: "Password Updated Successfully",
-            updatedPassword: updatePassword
-        });
-    })
-    .catch(err => {
-        console.error("Failed in updating the user: ", err)
-        return res.status(500).send({ error: 'Failed to update the user' })
-    });
+    const { newPassword } = req.body;
+
+    const { id } = req.user;
+
+    const hashedPassword = await bcrypt.hash(newPassword, 10);
+
+    await User.findByIdAndUpdate(id, { password: hashedPassword });
+
+    res.status(200).json({ message: 'Password reset successfully' });
+
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
 };
 
-
-module.exports.enroll = (req, res) => {
+/*module.exports.enroll = (req, res) => {
 
 	console.log(req.user.id) //the user's id from the decoded token after verify()
 	console.log(req.body.enrolledCourses) //the course from our request body
@@ -223,4 +219,4 @@ module.exports.getEnrollments = (req, res) => {
 		console.error("Error in fetching enrollments")
 		return res.status(500).send({ error: 'Failed to fetch enrollments' })
 	});
-};
+};*/

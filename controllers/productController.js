@@ -142,7 +142,7 @@ module.exports.archiveProduct = (req, res) => {
 
 };
 
-// Archieve Product (Admin only)
+// Activate Product (Admin only)
 module.exports.activateProduct = (req, res) => {
 
     let updateActiveField = {
