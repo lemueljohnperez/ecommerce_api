@@ -2,7 +2,7 @@
 const jwt = require("jsonwebtoken");
 
 // User defined string data that will be used to create our JSON Web Tokens
-const secret = "CourseBookingAPI";
+const secret = "ECommerceAPI";
 
 // Token Creation
 module.exports.createAccessToken = (user) => {
