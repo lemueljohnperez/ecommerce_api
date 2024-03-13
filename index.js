@@ -8,6 +8,7 @@ const cors = require("cors");
 // Allows us to access routes defined within routes/user
 const userRoutes = require("./routes/userRoute.js");
 const productRoutes = require("./routes/productRoute.js");
+const cartRoutes = require("./routes/cartRoute.js");
 
 // Environment Setup
 const port = 4000;
@@ -35,6 +36,9 @@ app.use("/users",userRoutes);
 
 // [/product]
 app.use("/products", productRoutes);
+
+// [/cart]
+app.use("/cart", cartRoutes);
 
 
 
