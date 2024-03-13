@@ -1,8 +1,8 @@
 // Dependencies and Modules
 const bcrypt = require("bcrypt")
+
 // The "User" variable is defined using a capitalized letter to indicate that what we are using is the "User" model for code readability
 const User = require("../models/userModel.js");
-/*const Enrollment = require("../models/Enrollment.js");*/
 const auth = require("../auth.js")
 
 // Controllers
@@ -157,25 +157,24 @@ module.exports.updateUser = (req, res) => {
 
 // Update Password
 module.exports.updatePassword = async (req, res) => {
-  try {
-  	console.log(req.body);
-  	console.log(req.user);
+	try {
+		const { newPassword } = req.body;
+		const { id } = req.user;
 
-    const { newPassword } = req.body;
+		// Hashing the new password
+		const hashedPassword = await bcrypt.hash(newPassword, 10);
 
-    const { id } = req.user;
+		// Updating the user's password in the database
+		await User.findByIdAndUpdate(id, { password: hashedPassword });
+		res.status(200).json({ message: 'Password reset successfully' });
+	}
 
-    const hashedPassword = await bcrypt.hash(newPassword, 10);
-
-    await User.findByIdAndUpdate(id, { password: hashedPassword });
-
-    res.status(200).json({ message: 'Password reset successfully' });
-
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: 'Internal server error' });
-  }
+	catch (err) {
+		console.error(err);
+		res.status(500).json({ message: 'Internal server error' });
+	}
 };
+
 
 /*module.exports.enroll = (req, res) => {
 
@@ -203,10 +202,10 @@ module.exports.updatePassword = async (req, res) => {
 		console.error("Error in enrolling: ", err)
 		return res.status(500).send({ error: "Error in enrolling" })
 	})
-}
+}*/
 
 
-module.exports.getEnrollments = (req, res) => {
+/*module.exports.getEnrollments = (req, res) => {
 	return Enrollment.find({userId : req.user.id})
 	.then(enrollments => {
 		if (!enrollments) {

@@ -118,7 +118,7 @@ module.exports.updateProduct = (req,res) => {
 	});
 }
 
-// Archieve Product (Admin only)
+// Archive Product (Admin only)
 module.exports.archiveProduct = (req, res) => {
 
     let updateActiveField = {
@@ -137,7 +137,7 @@ module.exports.archiveProduct = (req, res) => {
     })
     .catch(err => {
     	console.error("Error in archiving a product: ", err)
-    	return res.status(500).send({ error: 'Failed to archive product' })
+    	return res.status(500).send({ error: 'Failed to archive a product' })
     });
 
 };
@@ -149,7 +149,7 @@ module.exports.activateProduct = (req, res) => {
         isActive: true
     }
     
-    return Product.findByIdAndUpdate(req.params.prductId, updateActiveField)
+    return Product.findByIdAndUpdate(req.params.productId, updateActiveField)
     .then(activateProduct => {
         if (!activateProduct) {
         	return res.status(404).send({ error: 'Product not found' });
@@ -161,6 +161,6 @@ module.exports.activateProduct = (req, res) => {
     })
     .catch(err => {
     	console.error("Error in activating a product: ", err)
-    	return res.status(500).send({ error: 'Failed to activating a product' })
+    	return res.status(500).send({ error: 'Failed to activate a product' })
     });
 };

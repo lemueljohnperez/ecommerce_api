@@ -18,30 +18,40 @@ Dummy Customer
 
 
 ### Controllers (Lemuel)
-- User Resources
- - [x] User registration
- - [x] User authentication
- - [] Set user as admin (Admin only)
- - [x] Retrieve User Details
- - [] Update Password
+* User Controller
+	- [x] User registration
+	- [x] User authentication
+	- [x] Set user as admin (Admin only)
+	- [x] Retrieve User Details
+	- [x] Update Password
 
 ### Controllers (Toni)
-- 
-[]
-[]
-[]
+* Product Controller
+	- [x] Create Product (Admin only)
+	- [x] Retrieve all products
+	- [x] Retrieve all active products
+	- [x] Retrieve single product
+	- [x] Update Product information (Admin only)
+	- [x] Archive Product (Admin only)
+	- [x] Activate Product (Admin only)
 
 
 
 ### Routes (Lemuel)
-- 
-[]
-[]
-[]
+* User Route
+	- [x] / (registerUser)
+	- [x] /login (loginUser)
+	- [x] /details (getProfile)
+	- [x] /:userId/set-as-admin (updateUser)
+	- [x] /update-password (updatePassword)
 
 
 ### Routes (Toni)
-- 
-[]
-[]
-[]
+* Product Route
+	- [x] / (addProduct)
+	- [x] /all (getAllProducts)
+	- [x] / (getAllActiveProducts)
+	- [x] /:productId (getProduct)
+	- [x] /:productId (updateProduct)
+	- [x] /:productId/archive (archiveProduct)
+	- [x] /:productId/activate (activateProduct)

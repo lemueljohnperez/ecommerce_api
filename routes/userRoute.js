@@ -7,7 +7,7 @@ const userController = require("../controllers/userController.js");
 const passport = require("passport");
 
 //Import the auth module and deconstruct it to get our verify method
-const { verify, verifyAdmin, isLoggedIn } = require("../auth.js");
+const { verify, verifyAdmin } = require("../auth.js");
 
 // Routes
 router.post("/", userController.registerUser);
@@ -19,6 +19,7 @@ router.get("/details", verify, userController.getProfile);
 router.patch('/:userId/set-as-admin', verify, verifyAdmin, userController.updateUser);
 
 router.patch('/update-password', verify, userController.updatePassword);
+
 
 //[Export Route System]
 //allows us to export the router object that will be accessed by index.js
