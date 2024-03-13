@@ -1,0 +1,7 @@
+Lemuel
+mongoose.connect("mongodb+srv://admin:admin1234@wdc028-course-booking.jodckfe.mongodb.net/ecommerce-API?retryWrites=true&w=majority&appName=WDC028-Course-Booking");
+
+
+
+Toni
+mongoose.connect("mongodb+srv://admin:admin1234@wdc028-course-booking.t49xvui.mongodb.net/e-commerce-API?retryWrites=true&w=majority&appName=WDC028-Course-Booking");

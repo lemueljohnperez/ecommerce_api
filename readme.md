@@ -23,7 +23,7 @@ Dummy Customer
 	- [x] User authentication
 	- [x] Set user as admin (Admin only)
 	- [x] Retrieve User Details
-	- [] Update Password
+	- [x] Update Password
 
 ### Controllers (Toni)
 * Product Controller
@@ -39,9 +39,11 @@ Dummy Customer
 
 ### Routes (Lemuel)
 * User Route
-	- []
-	- []
-	- []
+	- [x] / (registerUser)
+	- [x] /login (loginUser)
+	- [x] /details (getProfile)
+	- [x] /:userId/set-as-admin (updateUser)
+	- [x] /update-password (updatePassword)
 
 
 ### Routes (Toni)
