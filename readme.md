@@ -48,6 +48,10 @@ Dummy Customer
 
 ### Routes (Toni)
 * Product Route
-	- []
-	- []
-	- []
+	- [x] / (addProduct)
+	- [x] /all (getAllProducts)
+	- [x] / (getAllActiveProducts)
+	- [x] /:productId (getProduct)
+	- [x] /:productId (updateProduct)
+	- [x] /:productId/archive (archiveProduct)
+	- [x] /:productId/activate (activateProduct)
