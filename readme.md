@@ -74,8 +74,8 @@
 	- [x] /:productId (updateProduct)
 	- [x] /:productId/archive (archiveProduct)
 	- [x] /:productId/activate (activateProduct)
-	- [] /searchByName
-	- [] /searchByPrice
+	- [x] /searchByName (searchProductsByName)
+	- [x] /searchByPrice (searchProductsByPrice)
 
 * Order Route
 	- [x] /checkout (createOrder)
