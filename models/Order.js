@@ -36,9 +36,9 @@ const orderSchema = new mongoose.Schema({
     },
 
     status: {
-	    	type: String,
-	    	default: 'Pending'
-	    }
+    	type: String,
+    	default: 'Pending'
+	}
 })
 
 module.exports = mongoose.model('Order', orderSchema);
