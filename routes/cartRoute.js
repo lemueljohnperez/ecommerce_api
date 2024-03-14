@@ -9,19 +9,19 @@ const router = express.Router();
 // Retrieve User's Cart
 router.get("/get-cart", verify, cartController.getUserCart);
 
-//Add to cart 
+// Add to cart 
 router.post("/add-to-cart", verify, cartController.addToCart);
 
 // Change Product Quatities in Cart
 router.patch("/update-cart-quantity", verify, cartController.updateCartQuantity);
 
-/*// Remove Item from Cart
+// Remove Item from Cart
 router.patch("/:productId/remove-from-cart", verify, cartController.removeItem);
 
-//Clear-Cart
-router.put("/clear-cart",verify,cartController.clearCartItems);
+// Clear-Cart
+router.put("/clear-cart", verify, cartController.clearCartItems);
 
-// Add search for products by their names
+/*// Add search for products by their names
 router.post("/products/searchByName", cartController.searchByName);
 
 // Add search for products by price range

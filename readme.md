@@ -31,8 +31,8 @@
 		* [x] Subtotal for each item
 		* [x] Total price for all items
 	- [x] Change product quantities (User)
-	- [] Remove products from cart (User)
-	- [] Clear Cart (User)
+	- [x] Remove products from cart (User)
+	- [x] Clear Cart (User)
 
 ### Controllers (Toni)
 * Product Controller
@@ -62,8 +62,8 @@
 	- [x] /get-cart (getUserCart)
 	- [x] /add-to-cart (addToCart)
 	- [x] /update-cart-quantity (updateCartQuantity)
-	- [] /:productId/remove-from-cart
-	- [] /clear-cart
+	- [x] /:productId/remove-from-cart (removeItem)
+	- [x] /clear-cart (clearCartItems)
 
 ### Routes (Toni)
 * Product Route
