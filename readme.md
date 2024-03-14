@@ -26,11 +26,11 @@
 	- [x] Update Password
 
 * Cart Controller
-	- [] Get User's Cart (User)
+	- [x] Get User's Cart (User)
 	- Add to Cart (User)
-		* [] Subtotal for each item
-		* [] Total price for all items
-	- [] Change product quantities (User)
+		* [x] Subtotal for each item
+		* [x] Total price for all items
+	- [x] Change product quantities (User)
 	- [] Remove products from cart (User)
 	- [] Clear Cart (User)
 
@@ -44,6 +44,10 @@
 	- [x] Archive Product (Admin only)
 	- [x] Activate Product (Admin only)
 
+* Order Controller
+	- []
+	- []
+	- []
 
 
 ### Routes (Lemuel)
@@ -55,9 +59,9 @@
 	- [x] /update-password (updatePassword)
 
 * Cart Route
-	- [] /get-cart
-	- [] /add-to-cart
-	- [] /update-cart-quantity
+	- [x] /get-cart (getUserCart)
+	- [x] /add-to-cart (addToCart)
+	- [x] /update-cart-quantity (updateCartQuantity)
 	- [] /:productId/remove-from-cart
 	- [] /clear-cart
 
@@ -72,3 +76,8 @@
 	- [x] /:productId/activate (activateProduct)
 	- [] /searchByName
 	- [] /searchByPrice
+
+* Order Route
+	- []
+	- []
+	- []
