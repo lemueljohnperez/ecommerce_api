@@ -45,9 +45,9 @@
 	- [x] Activate Product (Admin only)
 
 * Order Controller
-	- []
-	- []
-	- []
+	- [] Create Order (User)
+	- [] Retrieve logged in user's orders (User)
+	- [] Retrieve all user's orders (Admin)
 
 
 ### Routes (Lemuel)
@@ -78,6 +78,6 @@
 	- [] /searchByPrice
 
 * Order Route
-	- []
-	- []
-	- []
+	- [] /checkout (createOrder)
+	- [] /my-orders (myOrders)
+	- [] /all-orders (allOrders)

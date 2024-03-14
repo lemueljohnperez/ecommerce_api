@@ -11,24 +11,24 @@ module.exports.addProduct = (req, res) => {
 	});
 
 	Product.findOne({name: req.body.name})
-	.then(existingProduct =>{
+	.then(existingProduct => {
 
 		if(existingProduct){
 			return res.status(409).send({error:'Product already exists'});
 
 		}
 		return newProduct.save()
-		.then(savedProduct =>{
+		.then(savedProduct => {
 
 			return res.status(201).send({ savedProduct });
 		})
 
-		.catch(saveErr =>{
+		.catch(saveErr => {
 			console.error("Error in saving the product: ", saveErr)
 			return res.status(500).send({error:'Failed to save the product'})
 		})
 	})
-	.catch(findErr =>{
+	.catch(findErr => {
 		console.error("Error in finding the product: ", findErr)
 		return res.status(500).send({error: 'Error finding the product'})
 	})
@@ -40,7 +40,7 @@ module.exports.getAllProducts = (req, res) => {
     
     return Product.find({})
     .then(products => {
-        if(products.length > 0){
+        if(products.length > 0) {
             return res.status(200).send({ products })
         }
         else{
@@ -58,10 +58,11 @@ module.exports.getAllActiveProducts = (req, res) => {
 
 	Product.find({ isActive: true }).then(products => {
 
-		if(products.length > 0){
+		if(products.length > 0) {
 			return res.status(200).send({ products });
 		}
-		else{
+
+		else {
 			return res.status(200).send({message:'No active products found.'})
 		}
 	})
@@ -100,10 +101,9 @@ module.exports.updateProduct = (req,res) => {
 	}
 
 	return Product.findByIdAndUpdate(productId, updatedProduct)
-	.then(updatedProduct =>{
+	.then(updatedProduct => {
 
-		if(!updatedProduct)
-		{
+		if(!updatedProduct) {
 			return res.status(404).send({error:'Product not found'})
 		}
 		return res.status(200).send({
@@ -111,8 +111,8 @@ module.exports.updateProduct = (req,res) => {
 			updatedProduct: updatedProduct
 		})
 		
-	}).catch(err=>{
-
+	})
+	.catch(err => {
 		console.error("Error in updating a product: ", err)
 		return res.status(500).send({error: 'Error in updating a product.'})
 	});

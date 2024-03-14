@@ -9,6 +9,7 @@ const cors = require("cors");
 const userRoutes = require("./routes/userRoute.js");
 const productRoutes = require("./routes/productRoute.js");
 const cartRoutes = require("./routes/cartRoute.js");
+const orderRoutes = require("./routes/orderRoute.js");
 
 // Environment Setup
 const port = 4000;
@@ -40,6 +41,8 @@ app.use("/products", productRoutes);
 // [/cart]
 app.use("/cart", cartRoutes);
 
+// [/orders]
+app.use("/orders", orderRoutes);
 
 
 // Server Gateway Response

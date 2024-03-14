@@ -21,10 +21,5 @@ router.patch("/:productId/remove-from-cart", verify, cartController.removeItem);
 // Clear-Cart
 router.put("/clear-cart", verify, cartController.clearCartItems);
 
-/*// Add search for products by their names
-router.post("/products/searchByName", cartController.searchByName);
-
-// Add search for products by price range
-router.post("/products/searchByName", cartController.searchByPrice);*/
 
 module.exports = router;
