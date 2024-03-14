@@ -164,3 +164,36 @@ module.exports.activateProduct = (req, res) => {
     	return res.status(500).send({ error: 'Failed to activate a product' })
     });
 };
+
+
+// Search for products by their names
+module.exports.searchProductsByName = (req, res) => {
+    const productName = req.body.productName;
+
+    // Perform case-insensitive search for products with matching names
+    Product.find({ name: { $regex: new RegExp(productName, 'i') } })
+    .then(products => {
+        res.status(200).json(products);
+    })
+    .catch(error => {
+        console.error("Error in searching products: ", error);
+        res.status(500).json({ error: 'Internal server error' });
+    });
+};
+
+
+// Search products by price
+module.exports.searchProductsByPrice = (req, res) => {
+    const minPrice = req.body.minPrice;
+    const maxPrice = req.body.maxPrice;
+
+    // Perform search for products within the price range
+    Product.find({ price: { $gte: minPrice, $lte: maxPrice } })
+    .then(products => {
+        res.status(200).json(products);
+    })
+    .catch(error => {
+        console.error("Error in searching products by price: ", error);
+        res.status(500).json({ error: 'Internal server error' });
+    });
+};
