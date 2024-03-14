@@ -5,32 +5,6 @@ const bcrypt = require("bcrypt")
 const User = require("../models/User.js");
 const auth = require("../auth.js")
 
-// Controllers
-/*module.exports.checkEmailExists = (req, res) => {
-	if (req.body.email.includes("@")) {
-		return User.find({ email : req.body.email })
-		.then(result => {
-
-			if (result.length > 0) {
-				return res.status(409).send({ error: "Duplicate Email Found" });
-			}
-
-			else {
-				return res.status(404).send({ message: "Email not found" });
-			};
-		})
-		.catch(err => {
-			console.error("Error in find", err)
-			return res.status(500).send({ error: "Error in find"});
-		});
-	}
-
-	else {
-	    return res.status(400).send({ error: "Invalid Email"})
-	};
-}*/
-
-
 // User registration
 module.exports.registerUser = (req, res) => {
 
@@ -174,48 +148,3 @@ module.exports.updatePassword = async (req, res) => {
 		res.status(500).json({ message: 'Internal server error' });
 	}
 };
-
-
-/*module.exports.enroll = (req, res) => {
-
-	console.log(req.user.id) //the user's id from the decoded token after verify()
-	console.log(req.body.enrolledCourses) //the course from our request body
-
-	if(req.user.isAdmin) {
-		return res.status(403).send({ error: "Admin is forbidden" });
-	}
-
-	let newEnrollment = new Enrollment({
-		userId : req.user.id,
-		enrolledCourses: req.body.enrolledCourses,
-		totalPrice: req.body.totalPrice
-	})
-	
-	return newEnrollment.save()
-	.then(enrolled => {
-		return res.status(201).send({ 
-			message: "Successfully Enrolled",
-			enrolled: enrolled
-		});
-	})
-	.catch(err => {
-		console.error("Error in enrolling: ", err)
-		return res.status(500).send({ error: "Error in enrolling" })
-	})
-}*/
-
-
-/*module.exports.getEnrollments = (req, res) => {
-	return Enrollment.find({userId : req.user.id})
-	.then(enrollments => {
-		if (!enrollments) {
-			return res.status(404).send({ error: 'No enrollments not found' });
-		}
-
-		return res.status(200).send({ enrollments });
-	})
-	.catch(err => {
-		console.error("Error in fetching enrollments")
-		return res.status(500).send({ error: 'Failed to fetch enrollments' })
-	});
-};*/

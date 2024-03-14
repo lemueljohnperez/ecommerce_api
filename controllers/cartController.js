@@ -1,4 +1,3 @@
-const User = require("../models/User.js");
 const Product = require("../models/Product.js");
 const Cart = require("../models/Cart.js");
 const auth = require("../auth.js")
