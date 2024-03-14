@@ -13,18 +13,13 @@ router.get("/get-cart", verify, cartController.getUserCart);
 router.post("/add-to-cart", verify, cartController.addToCart);
 
 // Change Product Quatities in Cart
-router.patch("/update-cart-quantity", verify, cartController.UpdateCartQuantity);
+router.patch("/update-cart-quantity", verify, cartController.updateCartQuantity);
 
 // Remove Item from Cart
 router.patch("/:productId/remove-from-cart", verify, cartController.removeItem);
 
 //Clear-Cart
-router.put("/clear-cart",verify,cartController.clearCartItems);
+router.put("/clear-cart",verify,cartController.clearCart);
 
-// Add search for products by their names
-router.post("/products/searchByName", cartController.searchByName);
-
-// Add search for products by price range
-router.post("/products/searchByName", cartController.searchByPrice);
 
 module.exports = router;

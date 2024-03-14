@@ -164,3 +164,20 @@ module.exports.activateProduct = (req, res) => {
     	return res.status(500).send({ error: 'Failed to activate a product' })
     });
 };
+
+module.exports.searchByName = async (req, res) => {
+	try {
+	  const { productName } = req.body;
+  
+	  // Use a regular expression to perform a case-insensitive search
+	  const products = await Product.find({
+		name: { $regex: productName, $options: 'i' }
+	  });
+  
+	  res.json(products);
+	} catch (error) {
+	  console.error(error);
+	  res.status(500).json({ error: 'Internal Server Error' });
+	}
+};
+
