@@ -25,7 +25,7 @@ app.use(express.urlencoded({extended:true}));
 app.use(cors());
 
 // Database Connection
-mongoose.connect("mongodb+srv://admin:admin1234@wdc028-course-booking.jodckfe.mongodb.net/ecommerce-API?retryWrites=true&w=majority&appName=WDC028-Course-Booking");
+mongoose.connect("mongodb+srv://admin:admin1234@wdc028-course-booking.t49xvui.mongodb.net/e-commerce-API?retryWrites=true&w=majority&appName=WDC028-Course-Booking");
 
 let db = mongoose.connection;
 db.on("error", console.error.bind(console,"connection error"));

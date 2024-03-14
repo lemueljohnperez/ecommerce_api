@@ -35,12 +35,10 @@ const orderSchema = new mongoose.Schema({
         default: Date.now
     },
 
-    status: [
-	    {
+    status: {
 	    	type: String,
 	    	default: 'Pending'
 	    }
-    ]
 })
 
 module.exports = mongoose.model('Order', orderSchema);

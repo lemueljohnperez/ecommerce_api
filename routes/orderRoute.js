@@ -9,5 +9,10 @@ const router = express.Router();
 // Create Order
 router.post("/checkout", verify, orderController.createOrder);
 
+/*// Retrieve logged in user's prders
+router.get("/my-orders", verify, orderController.getMyOrders);*/
+
+// Retrieve all user's orders
+/*router.get("/all-orders", verify, verifyAdmin, orderController.getAllMyOrders);*/
 
 module.exports = router;
