@@ -14,16 +14,14 @@ router.get("/", productController.getAllActiveProducts);
 
 router.get("/:productId", productController.getProduct);
 
-router.patch("/:productId/update", verify, verifyAdmin, productController.updateProduct);
+router.patch("/:productId", verify, verifyAdmin, productController.updateProduct);
 
 router.patch("/:productId/archive", verify, verifyAdmin, productController.archiveProduct);
 
 router.patch("/:productId/activate", verify, verifyAdmin, productController.activateProduct);
 
-// Add search for products by their names
-router.post("/searchByName", productController.searchByName);
+router.post("/searchByName", productController.searchProductsByName);
 
-/*// Add search for products by price range
-router.post("/products/searchByName", productController.searchByPrice);*/
+router.post("/searchByPrice", productController.searchProductsByPrice);
 
 module.exports = router;

@@ -1,4 +1,3 @@
-const User = require("../models/User.js");
 const Product = require("../models/Product.js");
 const Cart = require("../models/Cart.js");
 const auth = require("../auth.js")
@@ -43,7 +42,7 @@ module.exports.addToCart = (req, res) =>{
 		Cart.findOne({ userId })
 		.then(cart => {
 			if (!cart) {
-			// If no cart found, create a new cart and add the product
+				// If no cart found, create a new cart and add the product
 				const newCart = new Cart({
 					userId,
 					cartItems: [{ productId, quantity, subtotal: product.price * quantity }],
@@ -55,23 +54,23 @@ module.exports.addToCart = (req, res) =>{
 					res.status(201).json(savedCart);
 				})
 
-				.catch(error => {
-					res.status(500).json({ error: error.message });
+				.catch(savedCartErr => {
+					res.status(500).json({ error: savedCartErr.message });
 				});
 			}
 
 			else {
-			// If cart exists, check if the product is already in the cart
+				// If cart exists, check if the product is already in the cart
 				const existingCartItem = cart.cartItems.find(item => item.productId.toString() === productId);
 
 				if (existingCartItem) {
-				// If product exists in cart, update the quantity and subtotal
+					// If product exists in cart, update the quantity and subtotal
 					existingCartItem.quantity += quantity;
 					existingCartItem.subtotal = existingCartItem.quantity * product.price;
 				}
 
 				else {
-				// If product does not exist in cart, add it
+					// If product does not exist in cart, add it
 					cart.cartItems.push({ productId, quantity, subtotal: product.price * quantity });
 				}
 
@@ -80,25 +79,27 @@ module.exports.addToCart = (req, res) =>{
 
 				cart.save()
 				.then(updatedCart => {
-					res.json(updatedCart);
+					res.status(200).send({ message: "Item added to cart successfully", updatedCart });
 				})
 
-				.catch(error => {
-					res.status(500).json({ error: error.message });
+				.catch(updatedCartErr => {
+					res.status(500).json({ error: updatedCartErr.message });
 				});
 			}
 		})
 
-		.catch(error => {
-			res.status(500).json({ error: error.message });
+		.catch(cartFindErr => {
+			res.status(500).json({ error: cartFindErr.message });
 		});
 	})
 
-	.catch(error => {
-		res.status(500).json({ error: error.message });
+	.catch(productFindErr => {
+		res.status(500).json({ error: productFindErr.message });
 	});
 }
 
+
+// Update Product Quantity
 module.exports.updateCartQuantity = (req, res) => {
     const userId = req.user.id;
     const productId = req.body.productId;
@@ -135,7 +136,7 @@ module.exports.updateCartQuantity = (req, res) => {
 
     	        cart.save()
     	        .then(updatedCart => {
-    	        	res.status(200).send({ message: "Cart updated successfully", updatedCart });
+    	        	res.status(200).send({ message: "Item quantity updated successfully", updatedCart });
     	        })
     	        .catch(saveErr => {
     	        	res.status(500).json({ error: saveErr.message });
@@ -151,59 +152,75 @@ module.exports.updateCartQuantity = (req, res) => {
     });
 }
 
+
+// Remove from Cart
 module.exports.removeItem = (req, res) => {
-	const userId = req.user.id;
+    const userId = req.user.id;
     const productId = req.params.productId;
 
+    // Find the cart associated with the user ID
     Cart.findOne({ userId })
-       .then(cart => {
-           if (!cart) {
-               return res.status(404).json({ error: 'Cart not found' });
-           }
+    .then(cart => {
+        if (!cart) {
+            return res.status(404).json({ error: 'Cart not found' });
+        }
 
-           const itemIndex = cart.cartItems.findIndex(item => item.productId.toString() === productId);
+        // Find index of item to remove
+        const indexToRemove = cart.cartItems.findIndex(item => item.productId.toString() === productId);
 
-           if (itemIndex === -1) {
-               return res.status(404).json({ error: 'Item not found in cart' });
-           }
+        if (indexToRemove === -1) {
+            return res.status(200).json({
+            	message: 'Item not found in cart',
+            	cart
+            });
+        }
 
-           cart.cartItems.splice(itemIndex, 1);
-           cart.totalPrice = cart.cartItems.reduce((total, item) => total + item.subtotal, 0);
+        // Remove item from cart
+        cart.cartItems.splice(indexToRemove, 1);
 
-           return cart.save();
-       })
-       .then(updatedCart => {
-           return res.status(200).json({ message: 'Item removed from cart successfully', cart: updatedCart });
-       })
-       .catch(err => {
-           console.error(err);
-           return res.status(500).json({ error: 'Internal server error' });
-       });
-}
+        // Recalculate total price
+        cart.totalPrice = cart.cartItems.reduce((total, item) => total + item.subtotal, 0);
 
-module.exports.clearCart = (req, res) => {
+        // Save updated cart
+        cart.save()
+        .then(updatedCart => {
+            return res.status(200).json({ message: 'Item removed from cart successfully', updatedCart });
+        })
+        .catch(updatedCartErr => {
+            return res.status(500).json({ error: updatedCartErr.message });
+        });
+    })
+    .catch(cartFindErr => {
+        return res.status(500).json({ error: cartFindErr.message });
+    });
+};
+
+
+// Clear Cart Items
+module.exports.clearCartItems = (req, res) => {
     const userId = req.user.id;
 
+    // Find the cart associated with the user ID
     Cart.findOne({ userId })
-        .then(cart => {
-            if (!cart) {
-                return res.status(404).json({ error: 'Cart not found' });
-            }
+    .then(cart => {
+        if (!cart) {
+            return res.status(404).json({ error: 'Cart not found' });
+        }
 
-            if (cart.cartItems.length === 0) {
-                return res.status(404).json({ error: 'Cart is already empty' });
-            }
+        // Clear cart items
+        cart.cartItems = [];
+        cart.totalPrice = 0;
 
-            cart.cartItems = [];
-            cart.totalPrice = 0;
-
-            return cart.save()
-                .then(updatedCart => {
-                    return res.status(200).json({ message: 'Cart cleared successfully', cart: updatedCart });
-                });
-        })
-        .catch(err => {
-            console.error(err);
-            return res.status(500).json({ error: 'Internal server error' });
-        });
+        // Save updated cart
+        cart.save()
+            .then(updatedCart => {
+                return res.status(200).json({ message: 'Cart items cleared successfully', updatedCart });
+            })
+            .catch(updatedCartErr => {
+                return res.status(500).json({ error: updatedCartErr.message });
+            });
+    })
+    .catch(cartFindErr => {
+        return res.status(500).json({ error: cartFindErr.message });
+    });
 };

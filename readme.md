@@ -26,13 +26,13 @@
 	- [x] Update Password
 
 * Cart Controller
-	- [] Get User's Cart (User)
+	- [x] Get User's Cart (User)
 	- Add to Cart (User)
-		* [] Subtotal for each item
-		* [] Total price for all items
-	- [] Change product quantities (User)
-	- [] Remove products from cart (User)
-	- [] Clear Cart (User)
+		* [x] Subtotal for each item
+		* [x] Total price for all items
+	- [x] Change product quantities (User)
+	- [x] Remove products from cart (User)
+	- [x] Clear Cart (User)
 
 ### Controllers (Toni)
 * Product Controller
@@ -44,6 +44,10 @@
 	- [x] Archive Product (Admin only)
 	- [x] Activate Product (Admin only)
 
+* Order Controller
+	- [] Create Order (User)
+	- [] Retrieve logged in user's orders (User)
+	- [] Retrieve all user's orders (Admin)
 
 
 ### Routes (Lemuel)
@@ -55,11 +59,11 @@
 	- [x] /update-password (updatePassword)
 
 * Cart Route
-	- [] /get-cart
-	- [] /add-to-cart
-	- [] /update-cart-quantity
-	- [] /:productId/remove-from-cart
-	- [] /clear-cart
+	- [x] /get-cart (getUserCart)
+	- [x] /add-to-cart (addToCart)
+	- [x] /update-cart-quantity (updateCartQuantity)
+	- [x] /:productId/remove-from-cart (removeItem)
+	- [x] /clear-cart (clearCartItems)
 
 ### Routes (Toni)
 * Product Route
@@ -72,3 +76,8 @@
 	- [x] /:productId/activate (activateProduct)
 	- [] /searchByName
 	- [] /searchByPrice
+
+* Order Route
+	- [] /checkout (createOrder)
+	- [] /my-orders (myOrders)
+	- [] /all-orders (allOrders)

@@ -4,34 +4,34 @@ const Product = require("../models/Product.js");
 // Create Product (Admin only)
 module.exports.addProduct = (req, res) => {
 
-		let newProduct = new Product({
-			name : req.body.name,
-			description : req.body.description,
-			price : req.body.price
-		});
+	let newProduct = new Product({
+		name : req.body.name,
+		description : req.body.description,
+		price : req.body.price
+	});
 
-		Product.findOne({name: req.body.name})
-		.then(existingProduct =>{
+	Product.findOne({name: req.body.name})
+	.then(existingProduct => {
 
-			if(existingProduct){
-				return res.status(409).send({error:'Product already exists'});
+		if(existingProduct){
+			return res.status(409).send({error:'Product already exists'});
 
-			}
-			return newProduct.save()
-			.then(savedProduct =>{
+		}
+		return newProduct.save()
+		.then(savedProduct => {
 
-				return res.status(201).send({ savedProduct });
-			})
-
-			.catch(saveErr =>{
-				console.error("Error in saving the product: ", saveErr)
-				return res.status(500).send({error:'Failed to save the product'})
-			})
+			return res.status(201).send({ savedProduct });
 		})
-		.catch(findErr =>{
-			console.error("Error in finding the product: ", findErr)
-			return res.status(500).send({error: 'Error finding the product'})
+
+		.catch(saveErr => {
+			console.error("Error in saving the product: ", saveErr)
+			return res.status(500).send({error:'Failed to save the product'})
 		})
+	})
+	.catch(findErr => {
+		console.error("Error in finding the product: ", findErr)
+		return res.status(500).send({error: 'Error finding the product'})
+	})
 		
 }; 
 
@@ -40,7 +40,7 @@ module.exports.getAllProducts = (req, res) => {
     
     return Product.find({})
     .then(products => {
-        if(products.length > 0){
+        if(products.length > 0) {
             return res.status(200).send({ products })
         }
         else{
@@ -58,10 +58,11 @@ module.exports.getAllActiveProducts = (req, res) => {
 
 	Product.find({ isActive: true }).then(products => {
 
-		if(products.length > 0){
+		if(products.length > 0) {
 			return res.status(200).send({ products });
 		}
-		else{
+
+		else {
 			return res.status(200).send({message:'No active products found.'})
 		}
 	})
@@ -100,10 +101,9 @@ module.exports.updateProduct = (req,res) => {
 	}
 
 	return Product.findByIdAndUpdate(productId, updatedProduct)
-	.then(updatedProduct =>{
+	.then(updatedProduct => {
 
-		if(!updatedProduct)
-		{
+		if(!updatedProduct) {
 			return res.status(404).send({error:'Product not found'})
 		}
 		return res.status(200).send({
@@ -111,8 +111,8 @@ module.exports.updateProduct = (req,res) => {
 			updatedProduct: updatedProduct
 		})
 		
-	}).catch(err=>{
-
+	})
+	.catch(err => {
 		console.error("Error in updating a product: ", err)
 		return res.status(500).send({error: 'Error in updating a product.'})
 	});
@@ -165,19 +165,35 @@ module.exports.activateProduct = (req, res) => {
     });
 };
 
-module.exports.searchByName = async (req, res) => {
-	try {
-	  const { productName } = req.body;
-  
-	  // Use a regular expression to perform a case-insensitive search
-	  const products = await Product.find({
-		name: { $regex: productName, $options: 'i' }
-	  });
-  
-	  res.json(products);
-	} catch (error) {
-	  console.error(error);
-	  res.status(500).json({ error: 'Internal Server Error' });
-	}
+
+// Search for products by their names
+module.exports.searchProductsByName = (req, res) => {
+    const productName = req.body.productName;
+
+    // Perform case-insensitive search for products with matching names
+    Product.find({ name: { $regex: new RegExp(productName, 'i') } })
+    .then(products => {
+        res.status(200).json(products);
+    })
+    .catch(error => {
+        console.error("Error in searching products: ", error);
+        res.status(500).json({ error: 'Internal server error' });
+    });
 };
 
+
+// Search products by price
+module.exports.searchProductsByPrice = (req, res) => {
+    const minPrice = req.body.minPrice;
+    const maxPrice = req.body.maxPrice;
+
+    // Perform search for products within the price range
+    Product.find({ price: { $gte: minPrice, $lte: maxPrice } })
+    .then(products => {
+        res.status(200).json(products);
+    })
+    .catch(error => {
+        console.error("Error in searching products by price: ", error);
+        res.status(500).json({ error: 'Internal server error' });
+    });
+};

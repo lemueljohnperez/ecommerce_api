@@ -5,32 +5,6 @@ const bcrypt = require("bcrypt")
 const User = require("../models/User.js");
 const auth = require("../auth.js")
 
-// Controllers
-/*module.exports.checkEmailExists = (req, res) => {
-	if (req.body.email.includes("@")) {
-		return User.find({ email : req.body.email })
-		.then(result => {
-
-			if (result.length > 0) {
-				return res.status(409).send({ error: "Duplicate Email Found" });
-			}
-
-			else {
-				return res.status(404).send({ message: "Email not found" });
-			};
-		})
-		.catch(err => {
-			console.error("Error in find", err)
-			return res.status(500).send({ error: "Error in find"});
-		});
-	}
-
-	else {
-	    return res.status(400).send({ error: "Invalid Email"})
-	};
-}*/
-
-
 // User registration
 module.exports.registerUser = (req, res) => {
 
