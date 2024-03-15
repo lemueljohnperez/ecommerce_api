@@ -14,7 +14,7 @@ router.get("/", productController.getAllActiveProducts);
 
 router.get("/:productId", productController.getProduct);
 
-router.patch("/:productId", verify, verifyAdmin, productController.updateProduct);
+router.patch("/:productId/update", verify, verifyAdmin, productController.updateProduct);
 
 router.patch("/:productId/archive", verify, verifyAdmin, productController.archiveProduct);
 

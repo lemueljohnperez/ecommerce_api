@@ -4,7 +4,6 @@ const express = require("express");
 // Routing Component
 const router = express.Router();
 const userController = require("../controllers/userController.js");
-const passport = require("passport");
 
 //Import the auth module and deconstruct it to get our verify method
 const { verify, verifyAdmin } = require("../auth.js");

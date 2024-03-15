@@ -1,7 +1,6 @@
 // Dependencies and Modules
 const express = require("express");
 const mongoose = require("mongoose");
-
 // Allows our backend app to be available to our frontend app
 const cors = require("cors");
 

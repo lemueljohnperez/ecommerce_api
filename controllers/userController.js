@@ -1,51 +1,76 @@
 // Dependencies and Modules
-const bcrypt = require("bcrypt")
+const bcrypt = require("bcrypt");
+const transporter = require("../nodemailer.js");
 
 // The "User" variable is defined using a capitalized letter to indicate that what we are using is the "User" model for code readability
 const User = require("../models/User.js");
-const auth = require("../auth.js")
+const auth = require("../auth.js");
 
 // User registration
+// with email notification
 module.exports.registerUser = (req, res) => {
 
-	return User.find({ email : req.body.email })
-	.then(result => {
-		if (!req.body.email.includes("@")) {
-			return res.status(400).send({ error: "Email invalid" });
-		}
+	if (!req.body.email.includes("@")) {
+		return res.status(400).send({ error: "Email invalid" });
+	}
 
-		else if (req.body.mobileNo.length !== 11) {
-			return res.status(400).send({ error: "Mobile number invalid" });
-		}
-		
-		else if (req.body.password.length < 8) {
-			return res.status(400).send({ error: "Password must be atleast 8 characters" });
-		}
+	else if (req.body.mobileNo.length !== 11) {
+		return res.status(400).send({ error: "Mobile number invalid" });
+	}
+	
+	else if (req.body.password.length < 8) {
+		return res.status(400).send({ error: "Password must be atleast 8 characters" });
+	}
+	
+	else {
+        User.find({ email: req.body.email })
+        .then(existingUser => {
+            if (existingUser.length > 0) {
+                return res.status(409).send({ error: "Duplicate Email Found" });
+            }
 
-		else if (result.length > 0) {
-			return res.status(409).send({ error: "Duplicate Email Found"});
-		}
-		
-		else {
-			let newUser = new User({
-				firstName : req.body.firstName,
-				lastName : req.body.lastName,
-				email : req.body.email,
-				mobileNo : req.body.mobileNo,
-				password : bcrypt.hashSync(req.body.password, 10)
-			})
-			
-			return newUser.save()
-			.then((registeredUser) => res.status(201).send({
-				message: "Registered Successfully",
-				registeredUser: registeredUser
-			}))
-			.catch(err => {
-				console.error("Error in saving: ", err)
-				return res.status(500).send({ error: "Error in save"})
-			})
-		}
-	})
+            else {
+                let newUser = new User({
+                    firstName: req.body.firstName,
+                    lastName: req.body.lastName,
+                    email: req.body.email,
+                    mobileNo: req.body.mobileNo,
+                    password: bcrypt.hashSync(req.body.password, 10)
+                })
+
+
+                // Save the created object to our database
+                return newUser.save()
+                .then(registeredUser => {
+            		// Client notification
+	            	res.status(201).send({
+	            		message: "Registered Successfully",
+	            		registeredUser: registeredUser
+	            	});
+
+		            // Send email notification
+		            transporter.sendMail({
+		                from: 'group3lemueltoni@gmail.com',
+		                to: req.body.email,
+		                subject: 'Registration Successful',
+		                text: 'Thank you for registering to our ECommerce Website.'
+		            }, (error, info) => {
+		                if (error) {
+		                    console.error('Error sending email:', error);
+		                }
+
+		                else {
+		                    console.log('Email sent:', info.response);
+		                }
+                	});
+            	})
+            }
+        })
+        .catch(err => {
+            console.error("Error in saving: ", err);
+            return res.status(500).send({ error: "Error in save" });
+        });
+    }
 };
 
 
@@ -130,21 +155,49 @@ module.exports.updateUser = (req, res) => {
 
 
 // Update Password
-module.exports.updatePassword = async (req, res) => {
-	try {
-		const { newPassword } = req.body;
-		const { id } = req.user;
+module.exports.updatePassword = (req , res) => {
 
-		// Hashing the new password
-		const hashedPassword = await bcrypt.hash(newPassword, 10);
+    const { newPassword } = req.body;
+    const { id } = req.user;
 
-		// Updating the user's password in the database
-		await User.findByIdAndUpdate(id, { password: hashedPassword });
-		res.status(200).json({ message: 'Password reset successfully' });
-	}
+    User.findByIdAndUpdate(id)
+    .then(user => {
+        if (!user) {
+            return res.status(404).send({ error: 'User not found' });
+        }
+        else {
+            // Update the user's password
+            hashedPassword = bcrypt.hashSync(newPassword, 10);
 
-	catch (err) {
-		console.error(err);
-		res.status(500).json({ message: 'Internal server error' });
-	}
-};
+            return user.save()
+            .then(() => {
+                // Send email notification
+                transporter.sendMail({
+                    from: 'group3lemueltoni@gmail.com',
+                    to: req.body.email,
+                    subject: 'Password Updated',
+                    text: 'Your password has been successfully updated.'
+                }, (error, info) => {
+                    if (error) {
+                        console.error('Error sending email:', error);
+                    }
+
+                    else {
+                        console.log('Email sent:', info.response);
+                    }
+                });
+
+                return res.status(200).send({ message: 'User password updated successfully' });
+            })
+            .catch(err => {
+                console.error('Error updating password:', err);
+                return res.status(500).send({ error: 'Failed to update password' });
+            });
+        }
+    })
+    .catch(err => {
+        console.error('Error finding user:', err);
+        return res.status(500).send({ error: 'Failed to find user' });
+    });
+} 
+
