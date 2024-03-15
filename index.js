@@ -6,13 +6,13 @@ const mongoose = require("mongoose");
 const cors = require("cors");
 
 // Allows us to access routes defined within routes/user
-const userRoutes = require("./routes/userRoute.js");
-const productRoutes = require("./routes/productRoute.js");
-const cartRoutes = require("./routes/cartRoute.js");
-const orderRoutes = require("./routes/orderRoute.js");
+const userRoute = require("./routes/userRoute.js");
+const productRoute = require("./routes/productRoute.js");
+const cartRoute = require("./routes/cartRoute.js");
+const orderRoute = require("./routes/orderRoute.js");
 
 // Environment Setup
-const port = 4000;
+const port = 4003;
 
 // Server Setup
 const app = express();
@@ -33,16 +33,16 @@ db.once("open",()=>console.log("Now connected to MongoDB Atlas!"));
 
 // Backend Routes
 // [/users]
-app.use("/users",userRoutes);
+app.use("/b3/users",userRoute);
 
 // [/product]
-app.use("/products", productRoutes);
+app.use("/b3/products", productRoute);
 
 // [/cart]
-app.use("/cart", cartRoutes);
+app.use("/b3/cart", cartRoute);
 
 // [/orders]
-app.use("/orders", orderRoutes);
+app.use("/b3/orders", orderRoute);
 
 
 // Server Gateway Response

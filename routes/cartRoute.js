@@ -1,10 +1,12 @@
 // Dependencies and Modules
 const express = require("express");
-const cartController = require("../controllers/cartController.js");
-const {verify, verifyAdmin} = require("../auth");
 
 //[Routing Component] 
 const router = express.Router();
+const cartController = require("../controllers/cartController.js");
+
+//Import the auth module and deconstruct it to get our verify method
+const {verify, verifyAdmin} = require("../auth");
 
 // Retrieve User's Cart
 router.get("/get-cart", verify, cartController.getUserCart);
@@ -20,6 +22,5 @@ router.patch("/:productId/remove-from-cart", verify, cartController.removeItem);
 
 // Clear-Cart
 router.put("/clear-cart", verify, cartController.clearCartItems);
-
 
 module.exports = router;

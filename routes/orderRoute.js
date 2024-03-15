@@ -1,10 +1,12 @@
 // Dependencies and Modules
 const express = require("express");
-const orderController = require("../controllers/orderController.js");
-const {verify, verifyAdmin} = require("../auth");
 
 //[Routing Component] 
 const router = express.Router();
+const orderController = require("../controllers/orderController.js");
+
+//Import the auth module and deconstruct it to get our verify method
+const {verify, verifyAdmin} = require("../auth");
 
 // Create Order
 router.post("/checkout", verify, orderController.createOrder);
